@@ -1,0 +1,30 @@
+{% extends "casos/base.html" %}
+{% block titulo %}Casos{% endblock %}
+
+{% block contenido %}
+<h1>Casos</h1>
+
+<table>
+  <tr>
+    <th>Código</th><th>Cliente</th><th>Estado</th>
+    <th>Abogados</th><th>Total pagado (S/)</th>
+  </tr>
+  {% for caso in casos %}
+  <tr>
+    <td><a href="{% url 'casos:detalle_caso' caso.id %}">{{ caso.codigo }}</a></td>
+    <td>{{ caso.cliente.nombres }}</td>
+    <td>{{ caso.estado.nombre }}</td>
+    <td>
+      {% for a in caso.abogados.all %}
+        {{ a.get_full_name|default:a.username }}{% if not forloop.last %}, {% endif %}
+      {% empty %}
+        Sin asignar
+      {% endfor %}
+    </td>
+    <td>{{ caso.total_pagado|floatformat:2 }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="5">No hay casos registrados.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "casos/base.html" %}
+{% block titulo %}Clientes{% endblock %}
+
+{% block contenido %}
+<h1>Clientes</h1>
+<p><a href="{% url 'casos:crear_cliente' %}">+ Nuevo cliente</a></p>
+
+<table>
+  <tr><th>Nombres</th><th>Documento</th><th>Teléfono</th><th>Correo</th><th>Acciones</th></tr>
+  {% for c in clientes %}
+  <tr>
+    <td>{{ c.nombres }}</td>
+    <td>{{ c.documento }}</td>
+    <td>{{ c.telefono }}</td>
+    <td>{{ c.correo }}</td>
+    <td>
+      <a href="{% url 'casos:editar_cliente' c.id %}">Editar</a> |
+      <a href="{% url 'casos:eliminar_cliente' c.id %}">Eliminar</a>
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="5">No hay clientes registrados.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

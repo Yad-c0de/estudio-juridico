@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block titulo %}Vargas & Asociados{% endblock %}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; color: #222; }
+    nav { background: #1f3a5f; padding: 12px 24px; }
+    nav a { color: #fff; margin-right: 20px; text-decoration: none; font-weight: bold; }
+    main { padding: 24px; min-height: 70vh; }
+    footer { background: #eee; text-align: center; padding: 12px; font-size: 14px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f2f2f2; }
+    .msg { padding: 10px; margin-bottom: 12px; border-radius: 4px; }
+    .success { background: #d4edda; } .error { background: #f8d7da; }
+    .aviso { background: #fff3cd; padding: 10px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="{% url 'casos:lista_clientes' %}">Clientes</a>
+    <a href="{% url 'casos:lista_casos' %}">Casos</a>
+  </nav>
+
+  <main>
+    {% for m in messages %}
+      <div class="msg {{ m.tags }}">{{ m }}</div>
+    {% endfor %}
+    {% block contenido %}{% endblock %}
+  </main>
+
+  <footer>Vargas & Asociados &ndash; Gestión de Casos &copy; 2026</footer>
+</body>
+</html>

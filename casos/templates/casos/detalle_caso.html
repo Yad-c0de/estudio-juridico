@@ -1,0 +1,46 @@
+{% extends "casos/base.html" %}
+{% block titulo %}Caso {{ caso.codigo }}{% endblock %}
+
+{% block contenido %}
+<h1>{{ caso.codigo }} &ndash; {{ caso.titulo }}</h1>
+
+<p><strong>Cliente:</strong> {{ caso.cliente.nombres }}</p>
+<p><strong>Estado:</strong> {{ caso.estado.nombre }}</p>
+<p><strong>Fecha de inicio:</strong> {{ caso.fecha_inicio|date:"d/m/Y" }}</p>
+<p><strong>Descripción:</strong> {{ caso.descripcion }}</p>
+<p><strong>Total pagado:</strong> S/ {{ caso.total_pagado|floatformat:2 }}</p>
+
+<h2>Expedientes</h2>
+<table>
+  <tr><th>Número</th><th>Juzgado</th><th>Fecha de presentación</th></tr>
+  {% for e in expedientes %}
+  <tr>
+    <td>{{ e.numero }}</td>
+    <td>{{ e.juzgado }}</td>
+    <td>{{ e.fecha_presentacion|date:"d/m/Y" }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="3">Este caso no tiene expedientes.</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Pagos</h2>
+{% if not caso.estado.permite_pagos %}
+  <p class="aviso">Este caso no admite pagos</p>
+{% endif %}
+
+<table>
+  <tr><th>Fecha</th><th>Monto (S/)</th><th>Descripción</th></tr>
+  {% for p in pagos %}
+  <tr>
+    <td>{{ p.fecha|date:"d/m/Y" }}</td>
+    <td>{{ p.monto|floatformat:2 }}</td>
+    <td>{{ p.descripcion }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="3">No hay pagos registrados.</td></tr>
+  {% endfor %}
+</table>
+
+<p><a href="{% url 'casos:lista_casos' %}">&larr; Volver al listado</a></p>
+{% endblock %}
