@@ -3,6 +3,15 @@
 
 {% block contenido %}
 <h1>Casos</h1>
+<p>
+  <strong>Filtrar por estado:</strong>
+  <a href="{% url 'casos:lista_casos' %}?estado=">Todos</a>
+  {% for e in estados %}
+    | <a href="{% url 'casos:lista_casos' %}?estado={{ e.id }}">
+        {% if e.id == estado_actual %}<strong>{{ e.nombre }}</strong>{% else %}{{ e.nombre }}{% endif %}
+      </a>
+  {% endfor %}
+</p>
 
 <table>
   <tr>

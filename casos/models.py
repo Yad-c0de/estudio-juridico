@@ -55,6 +55,7 @@ class Expediente(models.Model):
     caso = models.ForeignKey(
         Caso, on_delete=models.CASCADE, related_name="expedientes"
     )
+    documento = models.FileField(upload_to="expedientes/", blank=True)
 
     def __str__(self):
         return f"Exp. {self.numero} - {self.juzgado}"

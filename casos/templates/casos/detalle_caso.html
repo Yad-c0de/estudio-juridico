@@ -12,15 +12,26 @@
 
 <h2>Expedientes</h2>
 <table>
-  <tr><th>Número</th><th>Juzgado</th><th>Fecha de presentación</th></tr>
+  <tr><th>Número</th><th>Juzgado</th><th>Fecha de presentación</th><th>Documento</th></tr>
   {% for e in expedientes %}
   <tr>
     <td>{{ e.numero }}</td>
     <td>{{ e.juzgado }}</td>
     <td>{{ e.fecha_presentacion|date:"d/m/Y" }}</td>
+    <td>
+      {% if e.documento %}
+        <a href="{{ e.documento.url }}" target="_blank">Ver documento</a><br>
+      {% endif %}
+      <form method="post" enctype="multipart/form-data"
+            action="{% url 'casos:subir_documento' e.id %}">
+        {% csrf_token %}
+        <input type="file" name="documento" required>
+        <button type="submit">Subir</button>
+      </form>
+    </td>
   </tr>
   {% empty %}
-  <tr><td colspan="3">Este caso no tiene expedientes.</td></tr>
+  <tr><td colspan="4">Este caso no tiene expedientes.</td></tr>
   {% endfor %}
 </table>
 
@@ -28,6 +39,14 @@
 {% if not caso.estado.permite_pagos %}
   <p class="aviso">Este caso no admite pagos</p>
 {% endif %}
+
+<h3>Registrar pago</h3>
+<form method="post" action="{% url 'casos:registrar_pago' caso.id %}">
+  {% csrf_token %}
+  <label>Monto (S/): <input type="text" name="monto" required></label>
+  <label>Descripción: <input type="text" name="descripcion"></label>
+  <button type="submit">Registrar pago</button>
+</form>
 
 <table>
   <tr><th>Fecha</th><th>Monto (S/)</th><th>Descripción</th></tr>

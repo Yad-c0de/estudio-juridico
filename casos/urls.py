@@ -11,4 +11,7 @@ urlpatterns = [
     path("clientes/<int:id>/eliminar/", views.eliminar_cliente, name="eliminar_cliente"),
     path("casos/", views.lista_casos, name="lista_casos"),
     path("casos/<int:id>/", views.detalle_caso, name="detalle_caso"),
+    path("casos/<int:id>/pagos/nuevo/", views.registrar_pago, name="registrar_pago"),
+    path("expedientes/<int:id>/documento/", views.subir_documento, name="subir_documento"),
+    path("casos/api/<int:id>/", views.api_caso, name="api_caso"),
 ]
